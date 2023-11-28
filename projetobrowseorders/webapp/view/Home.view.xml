@@ -1,7 +1,24 @@
 <mvc:View controllerName="com.lab2dev.projetobrowseorders.controller.Home"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-        <content />
-    </Page>
+    <App>
+        <Page id="page" title="{i18n>title}">
+            <content>           
+                <List headerText="Orders {orders>/numberOfOrders}" headerLevel="H2" items="{orders>/}">
+		            <ObjectListItem
+                        title="Order {orders>OrderID}"
+                        number="{orders>OrderDate}"
+			            numberUnit="USD">
+                        <firstStatus>
+                            <ObjectStatus
+                                text="{orders>Discontinued}"
+                                state="Success" />
+                        </firstStatus>
+                        <ObjectAttribute text="{orders>CustomerID}" />
+                        <ObjectAttribute text="Shipped: {orders>ShippedDate}" />
+		            </ObjectListItem>
+	            </List>
+            </content>
+        </Page>
+    </App>
 </mvc:View>

@@ -41,18 +41,35 @@ sap.ui.define([
                                     const numberOfOrders = oDataOrders.length
                                     const orders = oDataOrders.map(orders => ({
                                         ...orders,
-                                        OrderDate: new Date(orders.OrderDate).toLocaleDateString("pt-BT"),
-                                        ShippedDate: new Date(orders.ShippedDate).toLocaleDateString("pt-BT")
+                                        OrderDate: this.formatOrderDate(orders.OrderDate),
+                                        ShippedDate: this.formatShippedDate(orders.ShippedDate)
                                     }))
-                                        const oModel = new JSONModel(orders);
-                                        oModel.setProperty("/numberOfOrders", numberOfOrders)
-                                        resolve(oModel)
+                                    const oModel = new JSONModel(orders);
+                                    oModel.setProperty("/numberOfOrders", numberOfOrders)
+                                    resolve(oModel)
                                 },
                                 error: oError => reject(oError)
                             });
                         })
                         .catch(oError => reject(oError));
                 });
+            },
+            formatOrderDate: function (sOrderDate) {
+                const orderDate = new Intl.DateTimeFormat("en-us", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit"
+                }).format(new Date(sOrderDate))
+                return orderDate
+            },
+            formatShippedDate: function (sShippedDate) {
+                const shippedDate = new Date(sShippedDate).toLocaleDateString("en-us",
+                    {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric"
+                    })
+                return shippedDate
             }
         };
     });

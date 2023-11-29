@@ -13,13 +13,15 @@
         </OverflowToolbar>
         </subHeader>
         <content>
-            <List
+        <List
                 id="list"
                 headerText="Orders ({orders>/numberOfOrders})"
                 items="{orders>/}">
                 <ObjectListItem 
                     title=" Order {orders>OrderID}"
-                    number="{orders>OrderDate}">
+                    number="{orders>OrderDate}"
+                    type="Navigation"
+                    press="onNavToOrderDetails">
                     <firstStatus>
                         <ObjectStatus
                                 text="{

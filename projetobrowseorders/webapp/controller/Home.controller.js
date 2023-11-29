@@ -3,16 +3,17 @@ sap.ui.define([
     "sap/m/MessageBox",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "com/lab2dev/projetobrowseorders/model/models"
+    "com/lab2dev/projetobrowseorders/model/models",
+    "com/lab2dev/projetobrowseorders/model/formatter"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, MessageBox, Filter, FilterOperator, models) {
+    function (Controller, MessageBox, Filter, FilterOperator, models, formatter) {
         "use strict";
 
         return Controller.extend("com.lab2dev.projetobrowseorders.controller.Home", {
-            
+            formatter:formatter,
             onInit: function () {
                 const parameters = {
                     urlParameters: {

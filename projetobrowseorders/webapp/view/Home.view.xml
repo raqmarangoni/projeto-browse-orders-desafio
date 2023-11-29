@@ -11,16 +11,23 @@
         <content>
             <List
                 id="list"
+                headerText="Orders ({orders>/numberOfOrders})"
                 items="{orders>/}">
                 <ObjectListItem 
                     title=" Order {orders>OrderID}"
                     number="{orders>OrderDate}">
                     <firstStatus>
                         <ObjectStatus
-                            text="{parameters: { ShippedDate: '{orders>ShippedDate}', OrderDate: '{orders>OrderDate}' }
+                                text="{
+                                path: 'orders>ShippedDate',
+                                parts: [{path:'orders>RequiredDate'}, {path:'orders>ShippedDate'}],
+                                formatter: '.formatter.deliveryText'
                             }"
-                            state="Success"
-                            />
+                                state="{
+                                    path: 'orders>ShippedDate',
+                                    parts: [{path:'orders>RequiredDate'}, {path:'orders>ShippedDate'}],
+                                    formatter: '.formatter.deliveryStatus'
+                                }" />
                     </firstStatus>
                     <ObjectAttribute text="{orders>Customer/CompanyName}"/>
                     <ObjectAttribute text="Shipped: {orders>ShippedDate}"/>

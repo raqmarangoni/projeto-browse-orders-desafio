@@ -3,22 +3,30 @@
     xmlns="sap.m">
     <App>
         <Page id="page" title="{i18n>title}">
-            <content>           
-                <List headerText="Orders {orders>/numberOfOrders}" headerLevel="H2" items="{orders>/}">
-		            <ObjectListItem
-                        title="Order {orders>OrderID}"
-                        number="{orders>OrderDate}"
-			            numberUnit="USD">
-                        <firstStatus>
-                            <ObjectStatus
-                                text="{orders>Discontinued}"
-                                state="Success" />
-                        </firstStatus>
-                        <ObjectAttribute text="{orders>CustomerID}" />
-                        <ObjectAttribute text="Shipped: {orders>ShippedDate}" />
-		            </ObjectListItem>
-	            </List>
-            </content>
+        <subHeader>
+        <OverflowToolbar>
+            <SearchField liveChange="onSearch" width="20%" />
+        </OverflowToolbar>
+        </subHeader>
+        <content>
+            <List
+                id="list"
+                items="{orders>/}">
+                <ObjectListItem 
+                    title=" Order {orders>OrderID}"
+                    number="{orders>OrderDate}">
+                    <firstStatus>
+                        <ObjectStatus
+                            text="{parameters: { ShippedDate: '{orders>ShippedDate}', OrderDate: '{orders>OrderDate}' }
+                            }"
+                            state="Success"
+                            />
+                    </firstStatus>
+                    <ObjectAttribute text="{orders>Customer/CompanyName}"/>
+                    <ObjectAttribute text="Shipped: {orders>ShippedDate}"/>
+                </ObjectListItem>
+            </List>
+        </content>
         </Page>
     </App>
 </mvc:View>

@@ -29,12 +29,13 @@ sap.ui.define([
                 });
             },
 
-            getOrders: function () {
+            getOrders: function (oURLParam) {
                 const oDataModel = this.getODataModel();
                 return new Promise((resolve, reject) => {
                     oDataModel
                         .then(oModel => {
                             oModel.read("/Orders", {
+                                ...oURLParam,
                                 success: oData => {
                                     const oDataOrders = oData.results
                                     const numberOfOrders = oDataOrders.length

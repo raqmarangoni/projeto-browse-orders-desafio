@@ -5,7 +5,11 @@
         <Page id="page" title="{i18n>title}">
         <subHeader>
         <OverflowToolbar>
-            <SearchField liveChange="onSearch" width="20%" />
+            <SearchField 
+            liveChange="onSearch" 
+            width="20%"
+            search="onSearch"
+             />
         </OverflowToolbar>
         </subHeader>
         <content>

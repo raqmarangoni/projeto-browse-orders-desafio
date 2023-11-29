@@ -11,7 +11,7 @@
 |**Module Name**<br>projetobrowseorders|
 |**Application Title**<br>Projeto Browse Orders|
 |**Namespace**<br>com.lab2dev|
-|**UI5 Theme**<br>sap_horizon|
+|**UI5 Theme**<br>sap_horizon_dark|
 |**UI5 Version**<br>1.120.1|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|

@@ -48,5 +48,9 @@ sap.ui.define([
                 var oViewModel = this.getView().getModel("orders"); //  captura a model "orders"
                 oViewModel.setProperty("/numberOfOrders", iFilteredCount);  // seta a propriedade numberOfOrders com valor atualizado
             },
+             onNavToOrderDetails: function(){
+                this.getOwnerComponent().getRouter().navTo("OrderDetail")
+                // this.oRouter.navTo("OrderDetail")
+            }
         });
     });

@@ -42,15 +42,19 @@ sap.ui.define([
 
             updateOrderCount: function () {
                 var oList = this.getView().byId("list"); // captura o valor pelo id do elemento da view
-                var oBinding = oList.getBinding("items"); //    captura o valor do campo "items"
+                var oBinding = oList.getBinding("items"); // captura o valor do campo "items"
                 var iFilteredCount = oBinding.getLength(); // verifica o tamanho da lista
-
                 var oViewModel = this.getView().getModel("orders"); //  captura a model "orders"
                 oViewModel.setProperty("/numberOfOrders", iFilteredCount);  // seta a propriedade numberOfOrders com valor atualizado
             },
+
              onNavToOrderDetails: function(){
                 this.getOwnerComponent().getRouter().navTo("OrderDetail")
                 // this.oRouter.navTo("OrderDetail")
+            },
+            _countItems(aOrders){
+                
+                return aOrders.length
             }
         });
     });

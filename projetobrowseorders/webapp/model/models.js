@@ -70,6 +70,30 @@ sap.ui.define([
                         day: "numeric"
                     })
                 return shippedDate
-            }
+            },
+            
+            getOrderDetail: function (OrderID) {
+                const oDataModel = this.getODataModel();
+    
+                return new Promise((resolve,reject) => {
+                    oDataModel
+                        .then((oModel) => {
+                            oModel.read(`/Orders(${OrderID})`, {
+                                urlParameters: {
+                                    $expand: "Customer,Order_Details/Product,Employee",
+                                },
+                                success: (oData) => {
+                                    
+                                    resolve(new JSONModel(oData));
+                                },
+                                error: (oError) => {
+                                    reject(oError)
+                                }
+                            });
+                        }).catch((oError) => {
+                            reject(oError);
+                        })
+                })
+            },
         };
     });

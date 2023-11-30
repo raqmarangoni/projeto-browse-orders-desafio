@@ -71,11 +71,10 @@ sap.ui.define([
                     })
                 return shippedDate
             },
-            
-            getOrderDetail: function (OrderID) {
+
+            getOrderData: function (OrderID) {
                 const oDataModel = this.getODataModel();
-    
-                return new Promise((resolve,reject) => {
+                return new Promise((resolve, reject) => {
                     oDataModel
                         .then((oModel) => {
                             oModel.read(`/Orders(${OrderID})`, {
@@ -83,17 +82,23 @@ sap.ui.define([
                                     $expand: "Customer,Order_Details/Product,Employee",
                                 },
                                 success: (oData) => {
-                                    
-                                    resolve(new JSONModel(oData));
+                                    const sum = this.sumPrice(oData.Order_Details.results)
+                                    oData.sum = sum
+                                    return resolve(new JSONModel(oData))
                                 },
-                                error: (oError) => {
-                                    reject(oError)
-                                }
+                                error: (oError) => reject(oError)
                             });
-                        }).catch((oError) => {
-                            reject(oError);
-                        })
+                        }).catch((oError) => reject(oError))
                 })
             },
+
+            sumPrice: function(aProducts){
+                const totalAmount = aProducts.reduce((acc, actualValue) => {
+                          const productTotal = actualValue.Quantity * +actualValue.UnitPrice
+                          return acc + productTotal
+                       }, 0)
+                       return totalAmount.toFixed(2)
+            
+            }
         };
     });

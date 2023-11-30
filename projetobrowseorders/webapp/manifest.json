@@ -91,7 +91,7 @@
         },
         {
           "name": "OrderDetail",
-          "pattern": "/order",
+          "pattern": "order/{orderID}",
           "target": [
             "OrderDetail"
           ]

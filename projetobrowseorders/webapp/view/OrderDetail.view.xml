@@ -11,7 +11,7 @@
 			<f:title>
 				<f:DynamicPageTitle>
 					<f:heading>
-						<Title text="Order "/>
+						<Title text="Order {order>/OrderID}"/>
 					</f:heading>
 					<f:content>
 						<OverflowToolbar>
@@ -35,14 +35,26 @@
 				<f:DynamicPageHeader pinnable="true">
 					<layout:HorizontalLayout allowWrapping="true">
 						<layout:VerticalLayout class="sapUiMediumMarginEnd">
-							<ObjectAttribute title="Customer" text="Warehouse A"/>
-							<ObjectAttribute title="OrderDate" text="23L"/>
-							<ObjectAttribute title="ShippedDate" text="34"/>
+							<ObjectAttribute title="Costumer" text="{order>/Customer/CompanyName}"/>
+							<ObjectAttribute
+								title="Ordered"
+								text="{
+									path: 'order>/OrderDate',
+									formatter: '.formatter.formatHeaderDate'
+								}"
+								/>
+							<ObjectAttribute 
+								title="Shipped"
+								text="{
+									path: 'order>/ShippedDate',
+									formatter: '.formatter.formatHeaderDate'
+								}"/>
 						</layout:VerticalLayout>
 
-						<layout:VerticalLayout>
-							<ObjectAttribute title="Price"/>
-							<ObjectStatus text="Preço EUR." state="Success" />
+						<layout:VerticalLayout class="sapUiMediumMarginEnd">
+							<Label text="Price"/>
+							<!-- <ObjectAttribute title="Teste"/> -->
+							<ObjectStatus text="{order>/sum} EUR."/>
 						</layout:VerticalLayout>
 					</layout:HorizontalLayout>
 				</f:DynamicPageHeader>
@@ -75,15 +87,15 @@
 							singleContainerFullSize="false" >
 							<ff:content>
 								<Label text="Name" />
-								<Text id="nameText" text="{Orders>ShipName}" />
+								<Text id="nameText" text="{order>/ShipName}" />
 								<Label text="Street" />
-								<Text text="{Street} {Orders>ShipAddress}" />
+								<Text text="{order>/ShipAddress}" />
 								<Label text="ZIP Code / City" />
-								<Text text="{Orders>ShipPostalCode} {Orders>ShipCity}" />
+								<Text text="{order>/ShipPostalCode} / {order>/ShipCity}" />
 								<Label text="Region" />
-								<Text id="regionText" text="{Orders>ShipRegion}" />
+								<Text id="regionText" text="{order>/ShipCity}" />
 								<Label text="Country" />
-								<Text id="countryText" text="{Orders>ShipCountry}" />
+								<Text id="countryText" text="{order>/ShipCountry}" />
 							</ff:content>
 						</ff:SimpleForm>
 					</VBox>
@@ -112,13 +124,13 @@
 							<ff:content>
 								<!-- <core:Title text="Details"/> -->
 								<Label text="Name" />
-								<Text id="fullName" text="{SupplierName}" />
-								<Label text="EmployedID" />
-								<Text text="{EmployedID} {HouseNumber}" />
+								<Text id="fullName" text="{order>/Employee/FirstName} {order>/Employee/LastName}" />
+								<Label text="Employee ID" />
+								<Text text="{order>/Employee/EmployeeID}" />
 								<Label text="Job Title" />
-								<Text text="{ZIPCode} {City}" />
+								<Text text="{order>/Employee/Title}" />
 								<Label text="Phone" />
-								<Text id="regionText2" text="{Country}" />
+								<Text id="regionText2" text="{order>/Employee/HomePhone}" />
 							</ff:content>
 						</ff:SimpleForm>
 					</VBox>
@@ -129,12 +141,14 @@
                     id="idProductsTable"
                     sticky="HeaderToolbar,ColumnHeaders"
                     inset="false"
-                    items="{orders>/Order_Details/results}"
+                    items="{
+											path: 'order>/Order_Details/results'
+										}"
                     class="sapFDynamicPageAlignContent"
                     width="auto">
                     <headerToolbar>
                         <Toolbar>
-                            <Title text="{= 'Line Items (' + ${orders>/Order_Details/results/length} + ')' }" level="H2"/>
+                            <Title text="Line Items {order>/Order_Details/results/length}" level="H2"/>
                         </Toolbar>
                     </headerToolbar>
                     <columns>
@@ -154,20 +168,27 @@
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <ObjectIdentifier title="{orders>Product/ProductName}" />
+                                <ObjectIdentifier
+																	title="{order>Product/ProductName}"
+																	text="{order>Product/ProductID}"/>
+																
+																<!-- <Text text="{= 'R$' + ${UnitPrice}}"/>
+                                <Text text="{Quantity}" />
+																<Text text="{= 'R$' + (${Quantity} * ${UnitPrice})}"/>	 -->
                                 <ObjectNumber
                                     number="{
-                                        path: 'orders>UnitPrice'
+                                        path: 'order>Product/UnitPrice',
+																				formatter: '.formatter.formatValue'
                                     }"
                                     unit="EUR" />
-                                <Text text="{orders>Quantity}" />
+																		<Text text="{order>Quantity}" />
                                 <ObjectNumber
                                     number='{
                                         "parts": [
-                                            {"path": "orders>UnitPrice"},
-                                            {"path": "orders>Quantity"}
+                                            {"path": "order>Product/UnitPrice"},
+                                            {"path": "order>Quantity"}
                                         ],
-                                        "formatter": ".formatter.setTotal"
+                                        "formatter": ".formatter.formatTotalPrice"
                                     }' 
                                     unit="EUR" />
                             </cells>

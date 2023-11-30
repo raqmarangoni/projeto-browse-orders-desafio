@@ -17,7 +17,7 @@ sap.ui.define([
             onInit: function () {
                 const parameters = {
                     urlParameters: {
-                        $expand:"Customer"
+                        $expand:"Order_Details/Product,Customer,Employee" 
                     }
                 }
                 const orders = models.getOrders(parameters);
@@ -48,9 +48,10 @@ sap.ui.define([
                 oViewModel.setProperty("/numberOfOrders", iFilteredCount);  // seta a propriedade numberOfOrders com valor atualizado
             },
 
-             onNavToOrderDetails: function(){
-                this.getOwnerComponent().getRouter().navTo("OrderDetail")
-                // this.oRouter.navTo("OrderDetail")
+             onNavToOrderDetails: function(oEvent){
+                const sOrderPath = oEvent.getSource().getBindingContextPath().split('/')[1]
+                const orderID = this.getView().getModel("orders").getData()[sOrderPath].OrderID
+                this.getOwnerComponent().getRouter().navTo("OrderDetail", {orderID})
             },
             _countItems(aOrders){
                 

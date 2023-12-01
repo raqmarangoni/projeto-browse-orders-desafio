@@ -1,0 +1,211 @@
+<mvc:View
+	controllerName="com.lab2dev.projetobrowseorders.controller.OrderDetail"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns="sap.m"
+		xmlns:f="sap.f"
+		xmlns:layout="sap.ui.layout"
+		xmlns:ff="sap.ui.layout.form"
+		height="100%">
+		<f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
+			<!-- DynamicPage Title -->
+			<f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Title text="Order {order>/OrderID}"/>
+					</f:heading>
+					<f:content>
+						<OverflowToolbar>
+						</OverflowToolbar>
+					</f:content>
+					<f:actions>
+					</f:actions>
+					<f:navigationActions>
+						<Button
+								icon="sap-icon://decline"
+								type="Transparent" 
+								press="onDeclinePress"/>
+					</f:navigationActions>
+				</f:DynamicPageTitle>
+			</f:title>
+			<!-- DynamicPage Header -->
+			<f:header>
+        
+				<f:DynamicPageHeader pinnable="true">
+					<layout:HorizontalLayout allowWrapping="true">
+						<layout:VerticalLayout class="sapUiMediumMarginEnd">
+							<ObjectAttribute title="Costumer" text="{order>/Customer/CompanyName}"/>
+							<ObjectAttribute
+								title="Ordered"
+								text="{
+									path: 'order>/OrderDate',
+									formatter: '.formatter.formatHeaderDate'
+								}"
+								/>
+							<ObjectAttribute 
+								title="Shipped"
+								text="{
+									path: 'order>/ShippedDate',
+									formatter: '.formatter.formatHeaderDate'
+								}"/>
+						</layout:VerticalLayout>
+
+						<layout:VerticalLayout class="sapUiMediumMarginEnd">
+							<Label text="Price"/>
+							<!-- <ObjectAttribute title="Teste"/> -->
+							<ObjectStatus text="{order>/sum} EUR."/>
+						</layout:VerticalLayout>
+					</layout:HorizontalLayout>
+				</f:DynamicPageHeader>
+			</f:header>
+			<f:content>
+            <VBox>
+            <IconTabBar
+		id="idIconTabBarMulti"
+		expanded="{device>/isNoPhone}"
+		class="sapUiResponsiveContentPadding">
+		<items>
+			<IconTabFilter icon="sap-icon://shipping-status" key="info">
+				<VBox class="sapUiSmallMargin">
+						<ff:SimpleForm id="SimpleFormDisplay354"
+							editable="false"
+							layout="ResponsiveGridLayout"
+							title="Shipping Address"
+							labelSpanXL="3"
+							labelSpanL="3"
+							labelSpanM="3"
+							labelSpanS="12"
+							adjustLabelSpan="false"
+							emptySpanXL="4"
+							emptySpanL="4"
+							emptySpanM="4"
+							emptySpanS="0"
+							columnsXL="1"
+							columnsL="1"
+							columnsM="1"
+							singleContainerFullSize="false" >
+							<ff:content>
+								<Label text="Name" />
+								<Text id="nameText" text="{order>/ShipName}" />
+								<Label text="Street" />
+								<Text text="{order>/ShipAddress}" />
+								<Label text="ZIP Code / City" />
+								<Text text="{order>/ShipPostalCode} / {order>/ShipCity}" />
+								<Label text="Region" />
+								<Text id="regionText" text="{order>/ShipCity}" />
+								<Label text="Country" />
+								<Text id="countryText" text="{order>/ShipCountry}" />
+							</ff:content>
+						</ff:SimpleForm>
+					</VBox>
+			</IconTabFilter>
+			<IconTabFilter
+				icon="sap-icon://employee"
+				key="notes">
+				<VBox class="sapUiSmallMargin">
+						<ff:SimpleForm id="SimpleFormDisplay3541"
+							editable="false"
+							layout="ResponsiveGridLayout"
+							title="Processor Information"
+							labelSpanXL="3"
+							labelSpanL="3"
+							labelSpanM="3"
+							labelSpanS="12"
+							adjustLabelSpan="false"
+							emptySpanXL="4"
+							emptySpanL="4"
+							emptySpanM="4"
+							emptySpanS="0"
+							columnsXL="1"
+							columnsL="1"
+							columnsM="1"
+							singleContainerFullSize="false" >
+							<ff:content>
+								<!-- <core:Title text="Details"/> -->
+								<Label text="Name" />
+								<Text id="fullName" text="{order>/Employee/FirstName} {order>/Employee/LastName}" />
+								<Label text="Employee ID" />
+								<Text text="{order>/Employee/EmployeeID}" />
+								<Label text="Job Title" />
+								<Text text="{order>/Employee/Title}" />
+								<Label text="Phone" />
+								<Text id="regionText2" text="{order>/Employee/HomePhone}" />
+							</ff:content>
+						</ff:SimpleForm>
+					</VBox>
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
+				 <Table
+                    id="idProductsTable"
+                    sticky="HeaderToolbar,ColumnHeaders"
+                    inset="false"
+                    items="{
+											path: 'order>/Order_Details/results'
+										}"
+                    class="sapFDynamicPageAlignContent"
+                    width="auto">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="Line Items ({order>/Order_Details/results/length})" level="H2"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column width="12em">
+                            <Text text="Product" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                            <Text text="Unit Price" />
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                            <Text text="Quantity" />
+                        </Column>
+                        <Column hAlign="End">
+                            <Text text="Total" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <ObjectIdentifier
+																	title="{order>Product/ProductName}"
+																	text="{order>Product/ProductID}"/>
+																
+
+                                <ObjectNumber
+                                    number="{
+                                        path: 'order>Product/UnitPrice',
+																				formatter: '.formatter.formatValue'
+                                    }"
+                                    unit="EUR" />
+																		<Text text="{order>Quantity}" />
+                                <ObjectNumber
+                                    number='{
+                                        "parts": [
+                                            {"path": "order>Product/UnitPrice"},
+                                            {"path": "order>Quantity"}
+                                        ],
+                                        "formatter": ".formatter.formatTotalPrice"
+                                    }' 
+                                    unit="EUR" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+			</VBox>
+            </f:content>
+
+			<!-- DynamicPage Footer -->
+			<f:footer>
+				<OverflowToolbar>
+					<Button icon="sap-icon://message-popup"
+							text="{/messagesLength}"
+							type="Emphasized"
+							press="onMessageButtonPress"
+							visible="{= !!${/messagesLength}}"/>
+					<ToolbarSpacer/>
+					<Button type="Accept" text="Accept"/>
+					<Button type="Reject" text="Reject"/>
+				</OverflowToolbar>
+			</f:footer>
+		</f:DynamicPage>
+</mvc:View>

@@ -14,22 +14,15 @@ sap.ui.define([
             this.oRouter = this.getOwnerComponent().getRouter()
             this.oRouter.getRoute("OrderDetail").attachPatternMatched(this._onRouteMatched, this)
          },
-         // _sumTotalOrder: function (oOrderDetails) {
-         //    const totalAmount = oOrderDetails.results.reduce((acc, actualValue) => {
-         //       const productTotal = actualValue.Quantity * +actualValue.UnitPrice
-         //       return acc + productTotal
-         //    }, 0)
-
-         //    return totalAmount.toFixed(2)
-         // },
+         
          _onRouteMatched: function (oEvent) {
             const oArgs = oEvent.getParameter("arguments")
             const order = models.getOrderData(oArgs.orderID)
-            order.then(oOrder => {
-               // const totalOrder = this._sumTotalOrder(oOrder.Order_Details)
-               // this.getView().setProperty("/sumTotalOrder", totalOrder)
-               this.getView().setModel(oOrder, "order")
-            })
+            order.then(oOrder => this.getView().setModel(oOrder, "order"))
+         },
+
+         onDeclinePress: function(){
+            this.oRouter.navTo("RouteHome")
          },
       });
    });

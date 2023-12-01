@@ -21,11 +21,9 @@
 					</f:actions>
 					<f:navigationActions>
 						<Button
-								icon="sap-icon://full-screen"
-								type="Transparent" />
-						<Button
 								icon="sap-icon://decline"
-								type="Transparent" />
+								type="Transparent" 
+								press="onDeclinePress"/>
 					</f:navigationActions>
 				</f:DynamicPageTitle>
 			</f:title>
@@ -148,7 +146,7 @@
                     width="auto">
                     <headerToolbar>
                         <Toolbar>
-                            <Title text="Line Items {order>/Order_Details/results/length}" level="H2"/>
+                            <Title text="Line Items ({order>/Order_Details/results/length})" level="H2"/>
                         </Toolbar>
                     </headerToolbar>
                     <columns>
@@ -172,9 +170,7 @@
 																	title="{order>Product/ProductName}"
 																	text="{order>Product/ProductID}"/>
 																
-																<!-- <Text text="{= 'R$' + ${UnitPrice}}"/>
-                                <Text text="{Quantity}" />
-																<Text text="{= 'R$' + (${Quantity} * ${UnitPrice})}"/>	 -->
+
                                 <ObjectNumber
                                     number="{
                                         path: 'order>Product/UnitPrice',

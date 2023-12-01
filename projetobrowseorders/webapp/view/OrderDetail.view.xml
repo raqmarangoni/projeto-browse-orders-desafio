@@ -1,6 +1,7 @@
 <mvc:View
 	controllerName="com.lab2dev.projetobrowseorders.controller.OrderDetail"
 		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:core="sap.ui.core"
 		xmlns="sap.m"
 		xmlns:f="sap.f"
 		xmlns:layout="sap.ui.layout"
@@ -115,12 +116,12 @@
 							emptySpanL="4"
 							emptySpanM="4"
 							emptySpanS="0"
-							columnsXL="1"
-							columnsL="1"
-							columnsM="1"
+							columnsXL="2"
+							columnsL="2"
+							columnsM="2"
 							singleContainerFullSize="false" >
 							<ff:content>
-								<!-- <core:Title text="Details"/> -->
+								<core:Title text="Details"/>
 								<Label text="Name" />
 								<Text id="fullName" text="{order>/Employee/FirstName} {order>/Employee/LastName}" />
 								<Label text="Employee ID" />
@@ -129,6 +130,8 @@
 								<Text text="{order>/Employee/Title}" />
 								<Label text="Phone" />
 								<Text id="regionText2" text="{order>/Employee/HomePhone}" />
+								<core:Title text="Picture"/>
+								<Image src ="../img/Employee.png"></Image>
 							</ff:content>
 						</ff:SimpleForm>
 					</VBox>
